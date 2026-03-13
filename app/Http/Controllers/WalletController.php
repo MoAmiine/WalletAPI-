@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
+
+    public function index()
+    {
+
+        $wallets = auth()->user()->wallets;
+
+        return response()->json([
+            "success" => true,
+            "message" => "Liste des wallets récupérée.",
+            "data" => [
+                "wallets" => $wallets
+            ]
+        ], 200);
+    }
     public function store(CreateWalletRequest $request)
     {
 

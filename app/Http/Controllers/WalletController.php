@@ -40,4 +40,31 @@ class WalletController extends Controller
             ]
         ], 201);
     }
+    public function show($id)
+    {
+
+        $wallet = Wallet::find($id);
+
+        if (!$wallet) {
+            return response()->json([
+                "success" => false,
+                "message" => "Wallet introuvable."
+            ], 404);
+        }
+
+        if ($wallet->user_id != auth()->id()) {
+            return response()->json([
+                "success" => false,
+                "message" => "Vous n'êtes pas autorisé à accéder à ce wallet."
+            ], 403);
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => "Détail du wallet récupéré.",
+            "data" => [
+                "wallet" => $wallet
+            ]
+        ], 200);
+    }
 }
